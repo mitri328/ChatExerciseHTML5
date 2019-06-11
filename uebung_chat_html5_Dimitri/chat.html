@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chat</title>
+
+    <link rel="stylesheet" href="css/chat.css">
+</head>
+
+    <body class="site">
+        <header class="site-header">
+            <h1>Chat</h1>
+        </header>
+        <main class="site-main">
+            <nav class="site-nav">
+                <ul>
+                    <li>
+                        <a href="chat.html">Chat</a>
+                    </li>
+                    <li>
+                        <a href="about.html">About</a>
+                    </li>
+                    <li>
+                        <a href="profile.html">Profile</a>
+                    </li>
+<!--                    <li>-->
+<!--                        <input type="text" name="name" id="name">-->
+<!--                        <button id="btn">Submit</button>-->
+<!--                    </li>-->
+                </ul>
+            </nav>
+            <article class="site-messages" id="messages">
+
+
+            </article>
+            <aside class="site-users" id="users">
+
+            </aside>
+
+        </main>
+
+
+        <footer class="site-footer">
+            <section>
+                <form method="GET">
+                    <p class="sendMessage">
+                        <textarea class="sendText" name="message" id="sendMessage" cols="80" rows="3"></textarea>
+                        <input class="sendButton" type="button" value="Send" id="sendButton" >
+                    </p>
+                </form>
+            </section>
+        </footer>
+
+    </body>
+    <script src="lib/axios.min.js"></script>
+    <script type="module"  src="app\chat.js" ></script>
+
+</html>

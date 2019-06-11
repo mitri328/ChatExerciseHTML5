@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chat - Profile</title>
+
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+
+<body>
+    <header>
+        <h1>Chat</h1>
+        <nav>
+            <ul>
+                <li>
+                    <a href="chat.html">Chat</a>
+                </li>
+                <li>
+                    <a href="about.html">About</a>
+                </li>
+                <li>
+                    <a href="profile.html">Profile</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <form method="GET" action="profile.html">
+                <fieldset>
+                    <legend>Personal details</legend>
+                    <p>
+                        <label for="firstname">First name</label>
+                        <input type="text" name="firstname" id="firstname" value="" required>
+
+                    </p>
+                    <p>
+                        <label for="lastname">Last name</label>
+                        <input type="text" name="lastname" id="lastname" value="">
+                    </p>
+                    <p>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" value="" required >
+                    </p>
+                    <p>
+                        <label for="zipcode">ZIP Code</label>
+                        <input type="number" name="zipcode" id="zipcode" value="" required pattern="[0-9]+">
+                    </p>
+                    <p>
+                        <label for="city">City</label>
+                        <input type="text" name="city" id="city" value="">
+                    </p>
+                    <p>
+                        <label for="country">Country</label>
+                        <input type="text" id="country" name="country" list="countrylist">
+                        <datalist id="countrylist">
+                            <option>Switzerland</option>
+                            <option>Germany</option>
+                        </datalist>
+                    </p>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Profile</legend>
+                    <p>
+                        <label for="nickname">Nickname</label>
+                        <input type="text" value="" id="nickname" readonly="readonly">
+                    </p>
+                    <p>
+                        Profile picture
+                    </p>
+                    <ul id="profilepicture">
+                        <li>
+                            <label for="profilepicture1">
+                                <img src="images/avatar_icon_1.svg" height="64" width="64" alt="Avatar 1">
+                            </label>
+                            <input type="radio" name="profilepicture" id="profilepicture1" value="1">
+                        </li>
+                        <li>
+                            <label for="profilepicture2">
+                                <img src="images/avatar_icon_2.svg" height="64" width="64" alt="Avatar 2">
+                            </label>
+                            <input type="radio" name="profilepicture" id="profilepicture2" value="2">
+                        </li>
+                        <li>
+                            <label for="profilepicture3">
+                                <img src="images/avatar_icon_3.svg" height="64" width="64" alt="Avatar 3">
+                            </label>
+                            <input type="radio" name="profilepicture" id="profilepicture3" value="3">
+                        </li>
+                        <li>
+                            <label for="profilepicture4">
+                                <img src="images/avatar_icon_4.svg" height="64" width="64" alt="Avatar 4">
+                            </label>
+                            <input type="radio" name="profilepicture" id="profilepicture4" value="4">
+                        </li>
+                    </ul>
+                    <p>
+                        <label for="profiledescription">Description</label>
+                        <textarea name="profiledescription" id="profiledescription"></textarea>
+                    </p>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Preferences</legend>
+                    <p>
+                        Background image
+                    </p>
+                    <ul>
+                        <li>
+                            <label for="backgroundimage1">
+                                <img srcset="images/background_1_320.jpg 320w, images/background_1_640.jpg 640w, images/background_1_1280.jpg 1280w"
+                                    sizes="(max-width: 800px) 300px, (min-width: 1400px) 1000px, 600px"
+                                    src="images/background_1_640.jpg" alt="Background 1">
+                                <input type="radio" name="backgroundimage" value="1" id="backgroundimage1">
+                            </label>
+                        </li>
+                        <li>
+                            <label for="backgroundimage2">
+                                <img srcset="images/background_2_320.jpg 320w, images/background_2_640.jpg 640w, images/background_2_1280.jpg 1280w"
+                                    sizes="(max-width: 800px) 300px, (min-width: 1400px) 1000px, 600px"
+                                    src="images/background_2_640.jpg" alt="Background 2">
+                                <input type="radio" name="backgroundimage" value="2" id="backgroundimage2">
+                            </label>
+                        </li>
+                        <li>
+                            <label for="backgroundimage3">
+                                <img srcset="images/background_3_320.jpg 320w, images/background_3_640.jpg 640w, images/background_3_1280.jpg 1280w"
+                                    sizes="(max-width: 800px) 300px, (min-width: 1400px) 1000px, 600px"
+                                    src="images/background_3_640.jpg" alt="Background 3">
+                                <input type="radio" name="backgroundimage" value="3" id="backgroundimage3">
+                            </label>
+                        </li>
+                        <li>
+                            <label for="backgroundimage4">
+                                <img srcset="images/background_4_320.jpg 320w, images/background_4_640.jpg 640w, images/background_4_1280.jpg 1280w"
+                                    sizes="(max-width: 800px) 300px, (min-width: 1400px) 1000px, 600px"
+                                    src="images/background_4_640.jpg" alt="Background 4">
+                                <input type="radio" name="backgroundimage" value="4" id="backgroundimage4">
+                            </label>
+                        </li>
+                    </ul>
+                </fieldset>
+
+                <fieldset>
+                    <input type="submit" value="Save">
+                </fieldset>
+            </form>
+        </article>
+    </main>
+
+    <script src="src\profile.js" ></script>
+</body>
+
+</html>

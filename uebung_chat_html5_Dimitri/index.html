@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chat - Login</title>
+
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <header>
+        <h1>Chat</h1>
+    </header>
+
+    <main>
+        <div id="loginbox">
+<!--            <form method="GET" action="chat.html">-->
+            <form method="GET" action="chat.html" >
+                <div>
+                    <label for="nickname">Nickname</label>
+                    <input id="nickname" name="nickname" type="text" value="" autofocus="autofocus" required pattern="[A-Za-z0-9]+"
+                        autocomplete="off">
+                </div>
+                <div>
+                    <input type="button"  value="Save" id="saveButton">
+                    <input type="submit" value="Login">
+                </div>
+            </form>
+        </div>
+    </main>
+    <script type="module"  src="app\index.js" ></script>
+</body>
+
+</html>

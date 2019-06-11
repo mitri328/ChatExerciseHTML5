@@ -1,0 +1,97 @@
+/* https://color.adobe.com
+    #44567F -> header
+    #D5E1FF -> site background
+    #88ACFF -> box background
+    #6A717F -> hover
+    #6D8ACC -> submit
+*/
+
+html {
+    font-family: sans-serif;
+    line-height: 1.15;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background-color: #D5E1FF;
+    height: 100%;
+    overflow: hidden;
+}
+
+header {
+    background-color: #44567F;
+    height: 120px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+header h1 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-top: 2rem;
+    font-size: 3rem;
+    float: left;
+}
+
+main {
+    height: 100%;
+}
+
+@keyframes movedown {
+    from {
+        top: 0%;
+    }
+
+    to {
+        top: 32%;
+    }
+}
+
+#loginbox {
+    background-color: #88ACFF;
+    padding: 20px;
+    width: 260px;
+    position: relative;
+    top: 32%;
+    left: 50%;
+    margin-left: -150px;
+    animation: movedown 1.5s;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+main {
+    animation: fadein 2s;
+}
+
+#loginbox label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+#loginbox form>div:last-of-type {
+    padding-top: 1.5rem;
+    text-align: right;
+}
+
+#loginbox input[type=text] {
+    width: 100%;
+}
+
+input[type=submit] {
+    background-color: #6D8ACC;
+}
+
+input:required:invalid {
+    border-color: red;
+}

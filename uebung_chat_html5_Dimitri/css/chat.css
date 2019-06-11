@@ -1,0 +1,151 @@
+.site {
+    _min-height: 100vh;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.site-header {
+    height: 75px;
+    text-align: center;
+    vertical-align: top;
+    background-color: rosybrown;
+}
+
+
+.site-main {
+    flex: 1;
+    /* strech main part*/
+    display: flex;
+    max-height: 100%;
+    justify-content: space-around;
+    overflow: auto;
+}
+
+.site-nav {
+    background-color: rgb(189, 173, 145);
+    margin: 0px;
+    padding: 10px;
+    text-align: left;
+
+}
+
+.site-messages {
+    flex: 1;
+    /* strech main part*/
+    background-color: peru;
+    overflow: auto;
+    /* flex for In/Outbox messages */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.site-users {
+    background-color: rgb(189, 173, 145);
+    overflow: auto;
+    padding: 10px;
+    text-align: left;
+}
+
+.site-users ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    _flex-grow: 1;
+    _flex-shrink: 1;
+    _flex-basis: auto;
+    padding: 0px;
+    margin: 5px;
+}
+
+.site-users img {
+    height: 25px;
+    width: 25px;
+}
+
+.site-users li {
+    padding-right: 5px;
+    align-self: center;
+    _flex: auto;
+    _text-align: left;
+    _float: left;
+   _background-color: rosybrown;
+
+
+}
+
+
+ul.messageOutbox {
+    background-color: greenyellow;
+    border-radius: 15px;
+    margin: 10px;
+    padding: 10px;
+    align-self: flex-end;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+ul.messageInbox {
+    background-color: whitesmoke;
+    border-radius: 15px;
+    margin: 10px;
+    padding: 10px;
+    align-self: flex-start;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+li.messageHeader {
+    font-size: small;
+    padding-bottom: 10px;
+    text-align: right;
+}
+
+.site-messages li {
+    flex: auto;
+}
+
+
+p.sendMessage {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+
+.sendText {
+    margin: 5px;
+    padding: 5px;
+    height: 15px;
+    width: 800px;
+
+}
+
+.sendButton {
+    margin: 5px;
+    padding: 5px;
+    height: 25px;
+    width: 60px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.site-footer {
+    height: 75px;
+    background-color: rosybrown;
+}
+
+li {
+    list-style: none;
+}
+
+ul {
+    padding: 0px;
+}
