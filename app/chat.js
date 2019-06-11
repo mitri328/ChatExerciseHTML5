@@ -9,7 +9,7 @@ import {
     User_status
 } from "./WebAPIUsers.js";
 import {getMessages, getMessage, saveMessage, Message} from "./WebAPIMessages.js";
-import {GetUserFromLocalStorage, SetUserToLocalStorage, LoggedUser} from "./localStorage.js";
+import {getUserFromLocalStorage, setUserToLocalStorage, LoggedUser} from "./localStorage.js";
 import {ConvertDate} from "./common.js";
 import {Ws_event} from "./WebScocket.js";
 
@@ -49,9 +49,13 @@ sendButton.addEventListener('click', () => {
 // --------------------
 // retrieve nickName form local storage
 // --------------------
-GetUserFromLocalStorage();
+getUserFromLocalStorage();
 console.log(`localStorage ${LoggedUser.nickname} / ${LoggedUser.id}`);
+// if no user logged the return to login page
 if (!LoggedUser.nickname || LoggedUser.nickname == '') window.open('index.html', '_self');
+
+// Update user Web API
+let success =  updateUser(LoggedUser);
 
 // --------------------
 // Save the new login nickname or load from DB if exists
@@ -67,7 +71,7 @@ checkUserExists(LoggedUser.nickname)
     })
     // TODO Update User : Status = Online
     .then(user => {
-        return SetUserToLocalStorage(user);
+        return setUserToLocalStorage(user);
     })
     .then(() => {
 
@@ -83,7 +87,7 @@ checkUserExists(LoggedUser.nickname)
         userList
         //.filter((item) => item.status === 'online' || item.status === 'offline')
             .forEach((item) => {
-                addUserInDOM(item, Ws_event.user_added);
+                updateUserInDOM(item, Ws_event.user_added);
             });
     })
     .then(async (messageList) => {
@@ -129,8 +133,9 @@ action are
 updated/added/deleted
 
 */
-function addUserInDOM(item, action) {
+function updateUserInDOM(item, action) {
     var ulNode;
+
 
     if (action == Ws_event.user_added) {
         // create user node
@@ -152,33 +157,35 @@ function addUserInDOM(item, action) {
         }
     }
 
-    // Avatar
-    var liAvatar = document.createElement("li");
-    var img = document.createElement("img");
-    img.src = `images/avatar_icon_${item.avatar}.svg`;
-    liAvatar.appendChild(img);
-    ulNode.appendChild(liAvatar);
+    if (action != Ws_event.user_deleted) {
+
+        // Avatar
+        var liAvatar = document.createElement("li");
+        var img = document.createElement("img");
+        img.src = `images/avatar_icon_${item.avatar}.svg`;
+        liAvatar.appendChild(img);
+        ulNode.appendChild(liAvatar);
 
 
-    // status
-    var canvas = document.createElement("canvas");
-    canvas.setAttribute('width', '16px');
-    canvas.setAttribute('height', '16px');
-    var context = canvas.getContext("2d");
-    context.arc(8, 8, 8, 0, Math.PI * 2, false);
-    var color = User_status.filter(v => v.status === item.status);
-    context.fillStyle = color[0].color;
-    context.fill()
+        // status
+        var canvas = document.createElement("canvas");
+        canvas.setAttribute('width', '16px');
+        canvas.setAttribute('height', '16px');
+        var context = canvas.getContext("2d");
+        context.arc(8, 8, 8, 0, Math.PI * 2, false);
+        var color = User_status.filter(v => v.status === item.status);
+        context.fillStyle = color[0].color;
+        context.fill()
 
-    var liStatus = document.createElement("li");
-    liStatus.appendChild(canvas);
-    ulNode.appendChild(liStatus);
+        var liStatus = document.createElement("li");
+        liStatus.appendChild(canvas);
+        ulNode.appendChild(liStatus);
 
-    // Nickname
-    var liNickname = document.createElement("li");
-    liNickname.appendChild(document.createTextNode(item.nickname));
-    ulNode.appendChild(liNickname);
-
+        // Nickname
+        var liNickname = document.createElement("li");
+        liNickname.appendChild(document.createTextNode(item.nickname));
+        ulNode.appendChild(liNickname);
+    }
 
     // -- Append / Remove child - up to action
     if (action === Ws_event.user_added) {
@@ -242,7 +249,7 @@ exampleSocket.onmessage = async function (event) {
             if (data.data.nickname !== LoggedUser.nickname) // dont add if it is the own  User (otherwise will be twice added)
             {
                 let user = await getUser(data.data.id)
-                addUserInDOM(user, Ws_event.user_added);
+                updateUserInDOM(user, Ws_event.user_added);
 
                 console.log("Case user_added");
                 break;
@@ -250,13 +257,13 @@ exampleSocket.onmessage = async function (event) {
         }
         case Ws_event.user_updated: {
             let user = await getUser(data.data.id)
-            addUserInDOM(user, Ws_event.user_updated);
+            updateUserInDOM(user, Ws_event.user_updated);
             console.log("Case user_updated");
             break;
         }
         case Ws_event.user_deleted: {
             //let user = await getUser(data.data.id)
-            addUserInDOM(new User(data.data.id), Ws_event.user_deleted);
+            updateUserInDOM(new Users(data.data.id), Ws_event.user_deleted);
             console.log("Case user_deleted");
             break;
         }

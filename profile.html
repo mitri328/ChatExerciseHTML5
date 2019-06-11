@@ -58,8 +58,9 @@
                         <label for="country">Country</label>
                         <input type="text" id="country" name="country" list="countrylist">
                         <datalist id="countrylist">
-                            <option>Switzerland</option>
-                            <option>Germany</option>
+                            <option value='Switzerland'></option>
+                            <option value='Germany'></option>
+                            <option value='UK'></option>
                         </datalist>
                     </p>
                 </fieldset>
@@ -148,12 +149,13 @@
 
                 <fieldset>
                     <input type="submit" value="Save">
+<!--                    <input type="button"  value="Save"  id="savebutton">-->
                 </fieldset>
             </form>
         </article>
     </main>
-
-    <script src="src\profile.js" ></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="module" src="app/profile.js" ></script>
 </body>
 
 </html>

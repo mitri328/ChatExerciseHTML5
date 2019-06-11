@@ -2,6 +2,7 @@
 // Functions
 // -----------------------------
 
+
 export const User_status = [
     {status: 'online', color: 'green'},
     {status: 'offline', color: 'grey'},
@@ -21,29 +22,10 @@ export async function checkUserExists(nickname) {
     return false;
 
 
-    // await checkUserExistsMain(nickName)
-    //     .then(exists => {
-    //         console.log('exists', exists);
-    //         return exists;
-    //     }).catch(error => {
-    //         console.error('Error check user exists:', error);
-    //         return false;
-    //     });
 
 }
 
-// // Get User from ID
-// export async function getUser(user_id) {
-//
-//     await getUserSyncMain(user_id)
-//         .then(user => {
-//             console.log('get user: ', user);
-//             return user;
-//         }).catch(error => {
-//             console.error(`Error get user (id=${user_id}) : ` , error);
-//             return false;
-//         });
-// };
+
 
 // Get user From Nickname
 export async function getUserFromNickName(nickname) {
@@ -60,18 +42,6 @@ export async function getUserFromNickName(nickname) {
     }
     return null;
 
-
-
-    // Get User from DB and save the name / id on the local storage
-    // await getUserListMain(nickname)
-    //     .then(user => {
-    //         if (user.length > 0)
-    //         {
-    //             return user[0];
-    //         }
-    //     }).catch(error => {
-    //         console.error(`Error get user with (${nickname}) : ` , error);
-    //     });
 }
 
 export async function getUserList() {
@@ -88,47 +58,7 @@ export async function getUserList() {
     return userList;
 
 
-    // await getUserListMain()
-    //     .then(users => {
-    //         console.log('getUsersList: ', users);
-    //         return users;
-    //     }).catch(error => {
-    //         console.error('Error get user list: ' , error);
-    //         return false;
-    //     });
 };
-
-
-
-// export async function SaveUser(nickname) {
-//
-//     await SaveUserMain(nickname)
-//         .then(function (id) {
-//             console.log(`user ${nickname} saved id : `, id);
-//             return id;
-//         }).catch(error => {
-//             console.error(`error save user ${nickname} web API:`, error);
-//         });
-// };
-
-
-
-
-// async function checkUserExistsMain(value) {
-//
-//     let getUsers = await fetch('https://chat.humbapa.ch/api/users');
-//     let data = await getUsers;
-//     // Success
-//     if (data.status === 200) {
-//         let dataJson = await data.json();
-//         return dataJson;
-//     } else {
-//         console.log('Unable to get the users list, status:', data.status);
-//         return false;
-//     }
-//
-//     return false;
-// }
 
 
 
@@ -149,21 +79,6 @@ export async function getUserListMain(userNickName) {
 
 }
 
-// function getUser_(user_id) {
-//     fetch('https://chat.humbapa.ch/api/users/' + user_id, {
-//         method: 'GET',
-//         headers: {'Content-Type': 'application/json'}
-//
-//     })
-//         .then(response => {
-//             if (response.status === 200) {
-//                 return getUserFromJson(response.json());
-//             } else {
-//                 console.log('Unable to get ' + user_id + '  : response ', response);
-//             }
-//         })
-//
-// }
 
 export async function getUser(user_id) {
 
@@ -184,30 +99,9 @@ export async function getUser(user_id) {
 }
 
 
-//console.log('userID ' + i,messageList[i].user_id )
-
-// export async function getUserSync(user_id) {
-//     axios.get('https://chat.humbapa.ch/api/users/' + user_id)
-//      .then((response) => {
-//             console.log('datas:', response);
-//             if (response.status === 200) {
-//                 return response.data;
-//             } else {
-//                 console.log(`Unable to get the user with id ${user_id} - status : `, response.status)
-//                 return false;
-//             }
-//         })
-//         .then((jsondata) => {
-//             return getUserFromJson(jsondata);
-//         });
-// }
 
 
-export function getUserFromJson(data) {
-    return new Users(data.id, data.nickname, data.created, data.updated, data.last_status_change,
-        data.status, data.avatar, data.description);
 
-}
 
 // Save the user nickName into the DB
 export async function saveUser(nickname) {
@@ -245,6 +139,7 @@ export async function saveUser(nickname) {
 
 // Save the user nickName into the DB
 export async function updateUser(user) {
+    user.status = 'online'; // set user online
 
     let updateUser = await fetch('https://chat.humbapa.ch/api/users', {
         method: 'PUT',
@@ -311,9 +206,18 @@ export async function removeUserSync(user_id) {
 }
 
 
+
+
 // -----------------------------
 // Users Classes
 // -----------------------------
+
+// Create new User form Json
+export function getUserFromJson(data) {
+    return new Users(data.id, data.nickname, data.created, data.updated, data.last_status_change,
+        data.status, data.avatar, data.description);
+
+}
 
 export class Users {
     constructor(id, nickname, created, updated, last_status_change, status, avatar, description) {
@@ -362,5 +266,27 @@ export class Users {
     get Description() {
         return this.description;
     }
+}
+
+
+// Create new UserPersonalData form Json
+export function getUserPersonalDataFromJson(data) {
+    return new UserPersonalData(data.firstname, data.lastname, data.email, data.zipcode, data.city,
+        data.country, data.backgroundimage);
+
+}
+
+export class UserPersonalData {
+    constructor(firstname, lastname, email, zipcode, city, country, backgroundimage) {
+
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.zipcode = zipcode;
+        this.city = city;
+        this.country = country;
+        this.backgroundimage = backgroundimage;
+    }
+
 }
 

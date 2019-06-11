@@ -1,5 +1,5 @@
 import {Users} from "./WebAPIUsers.js";
-import {SetUserToLocalStorage, GetUserFromLocalStorage, LoggedUser} from "./localStorage.js";
+import {setUserToLocalStorage, getUserFromLocalStorage, LoggedUser} from "./localStorage.js";
 
 
 console.log('login script...')
@@ -42,7 +42,7 @@ Local Storage
 */
 
 // retrieve nickName form local storage
-GetUserFromLocalStorage();
+getUserFromLocalStorage();
 nicknameInput.value = LoggedUser.nickname;
 console.log(`localStorage ${LoggedUser.nickname} / ${LoggedUser.id}`);
 
@@ -59,7 +59,7 @@ form.addEventListener('submit', () => { // change
     nicknameInput.checkValidity(); //nicknameInput.reportValidity() ;// firstNameInput.checkValidity();
 
     // Save User in local storage
-    SetUserToLocalStorage(new Users('', nicknameInput.value));
+    setUserToLocalStorage(new Users('', nicknameInput.value));
     console.log('submit:');
 
 });
@@ -71,7 +71,7 @@ Test save button
 */
 saveButton.addEventListener('click', () => {
     // Save User in local storage
-    SetUserToLocalStorage(new Users('', nicknameInput.value));
+    setUserToLocalStorage(new Users('', nicknameInput.value));
     console.log('save click!');
 
 })
