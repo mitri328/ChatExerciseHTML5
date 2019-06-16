@@ -1,4 +1,6 @@
 import {removeUser, removeUserSync, checkUserExists, getUserList, Users} from "./WebAPIUsers.js";
+import {UserList} from "./WebAPIUsers.js";
+
 
 
 const value = document.querySelector('#name'); // document.querySelector('input')
@@ -6,9 +8,46 @@ const button = document.querySelector('#btn'); // document.querySelector('input'
 
 
 button.addEventListener('click', async () => {
-    let deleted = await removeUserSync(value.value);
+    //let deleted = await removeUserSync(value.value);
     //exampleSocket.send("Hello World 2");
+
+
+    let country = document.querySelector('#country');
+    country.value = 'Switzerland';
+
+    let countries = document.querySelector('#countrylist');
+//countries.option[2].selected()
+//$("#country option:selected").attr(LoggedUserPersonalData.country);
+
+   // $("#country").val('Germany');
+//let countryvalue = LoggedUserPersonalData.country;
+//$('#country option').attr('selected', false).find(`[value="${countryvalue}"]`).attr('selected', true);
 })
+
+let country = document.querySelector('#country');
+country.value = 'Germany';
+
+
+var exec = async  function() {
+    getUserList().then((users) => {
+        //var userList
+        users
+
+            .filter((item) => item.id == '96cffb8b-aa64-471c-9c34-f7cf3a4bbc08')
+            .forEach((item) => {
+            console.log("list:", item);
+        });
+        console.log("list:", users);
+
+    })
+}();
+
+
+const userList = [
+    {nickname : 'dimitri', status : 'offline', avatar: 1},
+    {nickname : 'diid', status : 'online', avatar: 1}]
+var userList1 =  userList.filter((item) => item.status === 'online');
+console.log("list:", userList1);
 
 
 

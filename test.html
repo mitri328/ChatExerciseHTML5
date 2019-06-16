@@ -3,14 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <title>Test chat</title>
+    <style>
+
+
+        .site-users ul {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            _flex-grow: 1;
+            _flex-shrink: 1;
+            _flex-basis: auto;
+            padding: 0px;
+            margin: 5px;
+            list-style-type: none;
+        }
+
+        .site-users img {
+            height: 25px;
+            width: 25px;
+        }
+
+        .site-users li {
+            padding-right: 5px;
+            align-self: center;
+            _flex: auto;
+            _text-align: left;
+            _float: left;
+            _background-color: rosybrown;
+        }
+
+        .site-users-dragTargetContainer {
+            height: 10px;
+            _width: 100px;
+            _background-color: #6D8ACC;
+        }
+
+
+    </style>
 </head>
 <body>
 <form>
-    <label for="name">Enter username (upper and lowercase letters): </label>
-    <input type="text" name="name" id="name">
-    <button id="btn">Submit</button>
+    <!--    <label for="name">Enter username (upper and lowercase letters): </label>-->
+    <!--    <input type="text" name="name" id="name">-->
+    <!--    <button id="btn">Submit</button>-->
+
+
+    <!--    <input type="text" id="country" name="country" list="countrylist">-->
+    <!--    <datalist id="countrylist">-->
+    <!--        <option>Switzerland</option>-->
+    <!--        <option>Germany</option>-->
+    <!--    </datalist>-->
+
+    <section class="site-users" id="users">
+        <div  id="user1" draggable="true">
+            <div class="site-users-dragTargetContainer"></div>
+            <ul>
+                <li>1</li>
+                <li>status</li>
+                <li>--</li>
+            </ul>
+        </div>
+        <div id="user2" draggable="true">
+            <div class="site-users-dragTargetContainer"></div>
+            <ul>
+                <li>2</li>
+                <li>status</li>
+                <li>--</li>
+            </ul>
+        </div>
+        <div id="user3" draggable="true">
+            <div class="site-users-dragTargetContainer"></div>
+            <ul>
+                <li>3</li>
+                <li>status</li>
+                <li>--</li>
+            </ul>
+        </div>
+        <div  id="user4" draggable="true">
+            <div class="site-users-dragTargetContainer"></div>
+            <ul>
+                <li>4</li>
+                <li>status</li>
+                <li>--</li>
+            </ul>
+        </div>
+    </section>
 </form>
 <script src="lib/axios.min.js"></script>
-<script type="module"  src="app\test.js" ></script>
+<!--<script type="module" src="app\test.js"></script>-->
+<script>
+
+
+    // let user1 = document.getElementById('user1');
+    // let user3 = document.getElementById('user3');
+    //
+    // let users = document.getElementById('users');
+    //
+    // users.removeChild(user1);
+    // users.insertBefore(user1, user3.nextSibling); //attempt to insert it
+
+    // console.log('user:', user1);
+    // console.log('user parentNode :', user1.parentNode);
+    //
+    // let container = document.getElementById('container1');
+    // console.log('container1:', container);
+    //
+    // console.log('container1 children :', container.children[0]);
+
+    // user events:
+    user1.addEventListener('dragstart', (e) => {
+        console.log('dragstart');
+        var node = e.target;
+
+        e.dataTransfer.setData('SourceUserId', node.id);
+        // e.dataTransfer.setData('SourceParentId',nodeUser.parentNode.id);
+    })
+
+    user2.addEventListener('dragstart', (e) => {
+        console.log('dragstart');
+        var node = e.target;
+
+        e.dataTransfer.setData('SourceUserId', node.id);
+        // e.dataTransfer.setData('SourceParentId',nodeUser.parentNode.id);
+    })
+
+    user3.addEventListener('dragstart', (e) => {
+        console.log('dragstart');
+        var node = e.target;
+
+        e.dataTransfer.setData('SourceUserId', node.id);
+        // e.dataTransfer.setData('SourceParentId',nodeUser.parentNode.id);
+    })
+    user4.addEventListener('dragstart', (e) => {
+        console.log('dragstart');
+        var node = e.target;
+
+        e.dataTransfer.setData('SourceUserId', node.id);
+        // e.dataTransfer.setData('SourceParentId',nodeUser.parentNode.id);
+    })
+
+    // container events:
+    let containers = document.getElementsByClassName('site-users-dragTargetContainer');
+    for (const container of containers) {
+
+        container.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            console.log('dragover');
+        })
+        container.addEventListener("dragenter", (e) => {
+            e.preventDefault();
+            console.log('dragenter');
+        })
+
+        container.addEventListener("drop", (e) => {
+            // Get user source
+            var sourceUserNodeID = e.dataTransfer.getData('SourceUserId');
+            var sourceUserNode = document.getElementById(sourceUserNodeID);
+            var targetUserNode = e.target.parentElement;
+
+            var ParentNode = sourceUserNode.parentElement;
+
+            // Move Node User after the drag target element
+            users.removeChild(sourceUserNode);
+            users.insertBefore(sourceUserNode, targetUserNode); //attempt to insert it
+
+            // Log
+            console.log('SourceUserNode', sourceUserNode);
+            console.log('TargetUserNode', targetUserNode);
+            console.log('ParentNode', ParentNode);
+        })
+    }
+</script>
+
 </body>
 </html>

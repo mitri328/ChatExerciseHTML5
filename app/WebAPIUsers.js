@@ -3,6 +3,8 @@
 // -----------------------------
 
 
+export let UserList = [];
+
 export const User_status = [
     {status: 'online', color: 'green'},
     {status: 'offline', color: 'grey'},
@@ -48,14 +50,13 @@ export async function getUserList() {
 
     let users = await getUserListMain();
 
-    var userList = [];
-    if (!users) return userList;
+    if (!users) return UserList;
 
     //console.log(dataJson);
     for (let i = 0, ii = users.length; i < ii; i++) {
-            userList.push(getUserFromJson(users[i]));
+            UserList.push(getUserFromJson(users[i]));
     }
-    return userList;
+    return UserList;
 
 
 };

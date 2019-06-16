@@ -12,7 +12,7 @@ import {getMessages, getMessage, saveMessage, Message} from "./WebAPIMessages.js
 import {getUserFromLocalStorage, setUserToLocalStorage, LoggedUser} from "./localStorage.js";
 import {ConvertDate} from "./common.js";
 import {Ws_event} from "./WebScocket.js";
-
+import {sendNotification} from "./Notifications.js";
 
 console.log('chat script...')
 
@@ -54,8 +54,7 @@ console.log(`localStorage ${LoggedUser.nickname} / ${LoggedUser.id}`);
 // if no user logged the return to login page
 if (!LoggedUser.nickname || LoggedUser.nickname == '') window.open('index.html', '_self');
 
-// Update user Web API
-let success =  updateUser(LoggedUser);
+
 
 // --------------------
 // Save the new login nickname or load from DB if exists
@@ -69,9 +68,12 @@ checkUserExists(LoggedUser.nickname)
         else
             return saveUser(LoggedUser.nickname);
     })
-    // TODO Update User : Status = Online
+
     .then(user => {
-        return setUserToLocalStorage(user);
+         setUserToLocalStorage(user);
+         // Update user (set online)
+        if (!LoggedUser.status === 'online')
+            return updateUser(user);
     })
     .then(() => {
 
@@ -134,30 +136,37 @@ updated/added/deleted
 
 */
 function updateUserInDOM(item, action) {
-    var ulNode;
+    var divNode;
 
 
     if (action == Ws_event.user_added) {
         // create user node
-        ulNode = document.createElement("ul");
-        ulNode.setAttribute('id', item.id);
+        divNode = document.createElement("div");
+        divNode.setAttribute('id', item.id);
+        divNode.setAttribute('draggable', 'true');
     } else {
         // Get existing user node
-        ulNode = document.getElementById(item.id)
+        divNode = document.getElementById(item.id)
     }
 
-    if (!ulNode) {
-        return;
-    }
+    if (!divNode) {return;}
 
     // update : remove the nodes, and add new ones
     if (action == Ws_event.user_updated) {
-        while (ulNode.firstChild) {
-            ulNode.removeChild(ulNode.firstChild);
+        while (divNode.firstChild) {
+            divNode.removeChild(divNode.firstChild);
         }
     }
 
     if (action != Ws_event.user_deleted) {
+
+        // Add drop target container
+        var dragTargetNode = document.createElement("div");
+        dragTargetNode.setAttribute('class', 'site-users-dragTargetContainer');
+
+        // Create User data Ul container
+        var ulNode = document.createElement("ul");
+
 
         // Avatar
         var liAvatar = document.createElement("li");
@@ -172,7 +181,7 @@ function updateUserInDOM(item, action) {
         canvas.setAttribute('width', '16px');
         canvas.setAttribute('height', '16px');
         var context = canvas.getContext("2d");
-        context.arc(8, 8, 8, 0, Math.PI * 2, false);
+        context.arc(6, 6, 6, 0, Math.PI * 2, false);
         var color = User_status.filter(v => v.status === item.status);
         context.fillStyle = color[0].color;
         context.fill()
@@ -185,15 +194,70 @@ function updateUserInDOM(item, action) {
         var liNickname = document.createElement("li");
         liNickname.appendChild(document.createTextNode(item.nickname));
         ulNode.appendChild(liNickname);
+
+        // Add dragTargetNode before
+        divNode.appendChild(dragTargetNode);
+        addDropTragetContainerEvent(dragTargetNode); // Event
+
+        // Add User data
+        divNode.appendChild(ulNode);
+        addUserDragStartEvent(divNode); // Event
+
     }
+
+    var userListNode = document.getElementById("users");
 
     // -- Append / Remove child - up to action
     if (action === Ws_event.user_added) {
-
-        document.getElementById("users").appendChild(ulNode);
+        // Add at the beggining of the list
+        userListNode.insertBefore(divNode, userListNode.children[0]);
     } else if (action === Ws_event.user_deleted) {
-        document.getElementById("users").removeChild(ulNode);
+        // Remove the user
+        userListNode.removeChild(divNode);
     }
+}
+
+// Add User Element Drag&Drop Start Event
+function addUserDragStartEvent(userNode) {
+
+        userNode.addEventListener('dragstart', (e) => {
+            console.log('dragstart');
+            var node = e.target;
+            // Save source user
+            e.dataTransfer.setData('SourceUserId', node.id);
+        })
+
+}
+// Add the drop target container Event
+function addDropTragetContainerEvent(targetContainer) {
+    //if (action == Ws_event.user_added) {
+
+        targetContainer.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            console.log('dragover');
+        })
+        targetContainer.addEventListener("dragenter", (e) => {
+            e.preventDefault();
+            console.log('dragenter');
+        })
+
+        targetContainer.addEventListener("drop", (e) => {
+
+            // Get User/Parents DOM Elements
+            var id = e.dataTransfer.getData('SourceUserId');
+            var sourceUserNode = document.getElementById(id);
+            var targetUserNode = e.target.parentElement;
+            var ParentNode = sourceUserNode.parentElement;
+
+            // Move Node User after the drag target element
+            users.removeChild(sourceUserNode);
+            users.insertBefore(sourceUserNode, targetUserNode); //attempt to insert it
+
+            // Log
+            console.log('SourceUserNode', sourceUserNode);
+            console.log('TargetUserNode', targetUserNode);
+            console.log('ParentNode', ParentNode);
+        })
 }
 
 
@@ -228,15 +292,20 @@ function addMessageInDOM(message) {
 // ------------------------------------
 // Web Socket
 // ------------------------------------
-var exampleSocket = new WebSocket("wss://chat.humbapa.ch/ws");
-exampleSocket.onerror = function (event) {
+var chatWSocket = new WebSocket("wss://chat.humbapa.ch/ws");
+chatWSocket.onerror = function (event) {
     console.log("WebSocket Error:")
     console.log(event);
 }
-exampleSocket.onmessage = async function (event) {
+chatWSocket.onmessage = async function (event) {
     console.log("Neue WebSocket Message:")
     console.log(event.data);
+
+
+
     var data = JSON.parse(event.data)
+
+    sendNotification(data.action);
 
     switch (data.action) {
         case Ws_event.message_added: {
@@ -250,7 +319,6 @@ exampleSocket.onmessage = async function (event) {
             {
                 let user = await getUser(data.data.id)
                 updateUserInDOM(user, Ws_event.user_added);
-
                 console.log("Case user_added");
                 break;
             }
@@ -274,68 +342,14 @@ exampleSocket.onmessage = async function (event) {
 
 
 }
-exampleSocket.onopen = function (event) {
+chatWSocket.onopen = function (event) {
     // Sende eine Nachricht an den Server, der Server wird diese danach einfach an alle verbundenen Clients zurückschicken (Echo).
     //exampleSocket.send("Hello World");
 }
 
-// function reqListener () {
-//     console.log('HttpRequest', this.responseText);
-// }
-//
-// var oReq = new XMLHttpRequest();
-// oReq.addEventListener("load", reqListener);
-// oReq.open("GET", "https://chat.humbapa.ch/api/Messages");
-// oReq.send();
 
 
-// Get the user list (only one or all the users)
-// function getMessages_1() {
-//
-//     fetch('https://chat.humbapa.ch/api/Messages')
-//
-//         .then(data => {
-//             if (data.status === 200) {
-//                 return data.json();
-//             } else {
-//                 console.log('Unable to get the messages list status : ', data.status())
-//                 return;
-//             }
-//         })
-//         .then(jsondata => {
-//
-//             for (let i = 0, ii = jsondata.length; i < ii; i++) {
-//
-//             }
-//         }).catch(error => {
-//         console.error('error get message list:', error);
-//     });
-//
-//
-// }
 
-
-// -----------------------
-// Load/save test messages into/from local storage (TO REMOVE)
-// -----------------------
-// localStorage.setItem('test', '');
-//
-// function myFunction() {
-//     var val = document.getElementById("myMessage").value;
-//
-//     // get the item from localStorage
-//     var newItem = localStorage.getItem('test') + '<p class="messageOutbox">' + val + '</p>'
-//
-//     // set the item in localStorage
-//     localStorage.setItem('test', newItem);
-//
-//     document.getElementById("displayMessage").style.visibility = "visible";
-//
-//     document.getElementById("displayMessage").innerHTML = localStorage.getItem('test');
-//
-//     var objDiv = document.getElementById('messages');
-//     objDiv.scrollTop = objDiv.scrollHeight;
-// }
 
 
 

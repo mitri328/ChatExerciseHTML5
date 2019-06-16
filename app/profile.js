@@ -54,11 +54,7 @@ zipcode.value = LoggedUserPersonalData.zipcode;
 let city = document.querySelector('#city');
 city.value = LoggedUserPersonalData.city;
 let country = document.querySelector('#country');
-//country.value = LoggedUserPersonalData.country;
-//$("#country").val(LoggedUserPersonalData.country);
-//let countryvalue = LoggedUserPersonalData.country;
-//$('#country option').attr('selected', false).find(`[value="${countryvalue}"]`).attr('selected', true);
-
+country.value = LoggedUserPersonalData.country;
 
 let backgroundimage = document.getElementsByName('backgroundimage');
 if (LoggedUserPersonalData.backgroundimage)

@@ -1,4 +1,4 @@
-import {getUser} from "./WebAPIUsers.js";
+import {getUser, UserList} from "./WebAPIUsers.js";
 
 export async function getMessage(message_id) {
 
@@ -12,7 +12,14 @@ export async function getMessage(message_id) {
     // Success
     if (getMessage.status === 200) {
         let dataJson = await data.json();
-        let user = await getUser(dataJson.user_id);
+
+        // Get user from the list, if not found get from Web API
+        var users = UserList.filter((item) => item.Id === dataJson.user_id);
+        let user =  users[0];
+        if (!user) {// not found in Array list
+            console.log('user Not found In List');
+            user = await getUser(dataJson.user_id);
+        }
         return getMessageFromJson(dataJson, user.nickname);
     } else {
         console.log('Unable to get message ' + message_id + '  : response ', data);
@@ -29,7 +36,13 @@ export async function getMessages() {
 
     //messages.forEach(async (message) => {
     for (let message of messages) {
-        let user = await getUser(message.user_id);
+        // Get user from the list, if not found get from Web API
+        var users = UserList.filter((item) => item.id === message.user_id);
+        let user =  users[0];
+        if (!user) {// not found in Array list
+            console.log('user Not found In List');
+            user = await getUser(message.user_id);
+        }
         //console.log(`2 message ${message.id} - MsgUserID ${message.user_id} / ${user.userNickName}`);
         messageList.push(getMessageFromJson(message, user.nickname));
     }

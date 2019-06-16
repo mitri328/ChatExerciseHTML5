@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main>
+    <form>
+        <p>
+            <label
+            >Show Notification
+                <input name="notification" type="button" value="go" disabled />
+            </label>
+        </p>
+    </form>
+</main>
+    <script>
+        let notificationButton = document.querySelector(
+            'input[name=notification]'
+        )
+
+        if (Notification.permission === 'default') {
+            // default = Nachfragen, also fragen wir an...
+            Notification.requestPermission().then(function(result) {
+                // result enthält die ausgewählte Permission
+                if (result === 'granted') {
+                    // Alles ok, button aktivieren
+                    notificationButton.removeAttribute('disabled')
+                }
+            })
+        } else if (Notification.permission === 'granted') {
+            // Permissions sind schon ok, also button aktivieren
+            notificationButton.removeAttribute('disabled')
+        }
+
+        notificationButton.addEventListener('click', function(event) {
+            // Neue Notification erstellen, für weitere Optionen siehe https://developer.mozilla.org/en-US/docs/Web/API/notification/Notification
+            let notificationObj = new Notification('Tada', {
+                body: 'Hello World',
+                requireInteraction: false
+            })
+
+            // Nicht alle Browser schliessen die Notification automatisch
+            // damit das einheitlich ist, automatisch nach 4 Sekunden die Notification schliessen
+            // vgl. https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API/Using_the_Notifications_API
+            setTimeout(notificationObj.close.bind(notificationObj), 4000)
+
+            notificationObj.addEventListener('show', function(event) {
+                console.log(event)
+            })
+            notificationObj.addEventListener('click', function(event) {
+                console.log(event)
+            })
+            notificationObj.addEventListener('close', function(event) {
+                console.log(event)
+            })
+            notificationObj.addEventListener('error', function(event) {
+                console.log(event)
+            })
+        })
+    </script>
+
+
+
+</body>
+</html>
