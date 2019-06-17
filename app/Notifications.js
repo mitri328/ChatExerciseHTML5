@@ -25,6 +25,7 @@ if (Notification.permission === 'default') {
 
 export function sendNotification(message) {
     if (!notificationGranted) return;
+    if (!document.hidden) return;
     // Test send notification: New WebSocket message received
     let notificationObj = new Notification('WebSocket', {
         body: message,

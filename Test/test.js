@@ -1,5 +1,5 @@
-import {removeUser, removeUserSync, checkUserExists, getUserList, Users} from "./WebAPIUsers.js";
-import {UserList} from "./WebAPIUsers.js";
+import {removeUser, removeUserSync, checkUserExists, getUserList, Users} from "../app/WebAPIUsers.js";
+import {UserList} from "../app/WebAPIUsers.js";
 
 
 

@@ -301,16 +301,14 @@ chatWSocket.onmessage = async function (event) {
     console.log("Neue WebSocket Message:")
     console.log(event.data);
 
-
-
     var data = JSON.parse(event.data)
-
-    sendNotification(data.action);
 
     switch (data.action) {
         case Ws_event.message_added: {
             let message = await getMessage(data.data.id);
             addMessageInDOM(message);
+            if (message.user_id !== LoggedUser.id)
+                sendNotification(`${message.userNickName} says: ${message.message}`);
             console.log("Case message_added");
             break;
         }

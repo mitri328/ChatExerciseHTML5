@@ -5,7 +5,6 @@
     <title>Test chat</title>
     <style>
 
-
         .site-users ul {
             display: flex;
             flex-direction: row;
@@ -56,7 +55,7 @@
     <!--    </datalist>-->
 
     <section class="site-users" id="users">
-        <div  id="user1" draggable="true">
+        <div id="user1" draggable="true">
             <div class="site-users-dragTargetContainer"></div>
             <ul>
                 <li>1</li>
@@ -80,7 +79,7 @@
                 <li>--</li>
             </ul>
         </div>
-        <div  id="user4" draggable="true">
+        <div id="user4" draggable="true">
             <div class="site-users-dragTargetContainer"></div>
             <ul>
                 <li>4</li>
@@ -90,26 +89,10 @@
         </div>
     </section>
 </form>
-<script src="lib/axios.min.js"></script>
-<!--<script type="module" src="app\test.js"></script>-->
+<script src="../lib/axios.min.js"></script>
+<!--<script type="module" src="test.js"></script>-->
 <script>
 
-
-    // let user1 = document.getElementById('user1');
-    // let user3 = document.getElementById('user3');
-    //
-    // let users = document.getElementById('users');
-    //
-    // users.removeChild(user1);
-    // users.insertBefore(user1, user3.nextSibling); //attempt to insert it
-
-    // console.log('user:', user1);
-    // console.log('user parentNode :', user1.parentNode);
-    //
-    // let container = document.getElementById('container1');
-    // console.log('container1:', container);
-    //
-    // console.log('container1 children :', container.children[0]);
 
     // user events:
     user1.addEventListener('dragstart', (e) => {

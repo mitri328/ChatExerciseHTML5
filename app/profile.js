@@ -1,5 +1,12 @@
-import {getUserFromLocalStorage, setPersonalDataToLocalStorage, getPersonalDataFromLocalStorage, setUserToLocalStorage,   LoggedUser, LoggedUserPersonalData} from "./localStorage.js";
-import { updateUser} from "./WebAPIUsers.js";
+import {
+    getUserFromLocalStorage,
+    setPersonalDataToLocalStorage,
+    getPersonalDataFromLocalStorage,
+    setUserToLocalStorage,
+    LoggedUser,
+    LoggedUserPersonalData
+} from "./localStorage.js";
+import {updateUser} from "./WebAPIUsers.js";
 
 console.log('Script profile');
 
@@ -17,8 +24,7 @@ const form = document.querySelector('form');
 
 // Save user
 
-form.addEventListener('submit',  () => {
-
+form.addEventListener('submit', () => {
 
 
     LoggedUserPersonalData.firstname = firstname.value;
@@ -28,10 +34,10 @@ form.addEventListener('submit',  () => {
     LoggedUserPersonalData.city = city.value;
     LoggedUserPersonalData.country = country.value;
 
-    LoggedUserPersonalData.backgroundimage = $("input[name='backgroundimage']:checked"). val();
+    LoggedUserPersonalData.backgroundimage = $("input[name='backgroundimage']:checked").val();
 
     LoggedUser.nickname = nickname.value;
-    LoggedUser.avatar = $("input[name='profilepicture']:checked"). val();
+    LoggedUser.avatar = $("input[name='profilepicture']:checked").val();
     LoggedUser.description = description.value;
 
     // save to local storage
@@ -42,9 +48,12 @@ form.addEventListener('submit',  () => {
 })
 
 // Personal Datas
+//const form = document.querySelector('form');
+const formData = new FormData(form);
+formData.append('firstname', LoggedUserPersonalData.firstname);
 
-let firstname = document.querySelector('#firstname');
-firstname.value = LoggedUserPersonalData.firstname;
+//let firstname = document.querySelector('#firstname');
+//firstname.value = LoggedUserPersonalData.firstname;
 let lastname = document.querySelector('#lastname');
 lastname.value = LoggedUserPersonalData.lastname;
 let email = document.querySelector('#email');
@@ -58,18 +67,18 @@ country.value = LoggedUserPersonalData.country;
 
 let backgroundimage = document.getElementsByName('backgroundimage');
 if (LoggedUserPersonalData.backgroundimage)
-    backgroundimage[LoggedUserPersonalData.backgroundimage-1].checked = true;
+    backgroundimage[LoggedUserPersonalData.backgroundimage - 1].checked = true;
 
 let nickname = document.querySelector('#nickname');
 nickname.value = LoggedUser.nickname;
 let profilepicture = document.getElementsByName('profilepicture');
 if (LoggedUser.avatar)
-    profilepicture[LoggedUser.avatar-1].checked = true;
+    profilepicture[LoggedUser.avatar - 1].checked = true;
 let description = document.querySelector('#profiledescription');
 description.value = LoggedUser.description;
 
 // Update user Web API
-let success =  updateUser(LoggedUser);
+let success = updateUser(LoggedUser);
 
 
 
