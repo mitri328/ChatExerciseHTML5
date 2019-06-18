@@ -66,8 +66,10 @@
 }
 
 .site-users img {
-    height: 15px;
-    width: 15px;
+    height: 18px;
+    width: 18px;
+    align-self: center;
+    vertical-align: center;
 }
 
 .site-users li {
@@ -78,13 +80,13 @@
     _flex: auto;
     _text-align: left;
     _float: left;
-    background-color: rosybrown;
+    _background-color: rosybrown;
 }
 
 .site-users-dragTargetContainer {
     height: 2px;
     _width: 100px;
-    background-color: #6D8ACC;
+    _background-color: #6D8ACC;
 }
 
 

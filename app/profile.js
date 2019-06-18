@@ -48,12 +48,8 @@ form.addEventListener('submit', () => {
 })
 
 // Personal Datas
-//const form = document.querySelector('form');
-const formData = new FormData(form);
-formData.append('firstname', LoggedUserPersonalData.firstname);
-
-//let firstname = document.querySelector('#firstname');
-//firstname.value = LoggedUserPersonalData.firstname;
+let firstname = document.querySelector('#firstname');
+firstname.value = LoggedUserPersonalData.firstname;
 let lastname = document.querySelector('#lastname');
 lastname.value = LoggedUserPersonalData.lastname;
 let email = document.querySelector('#email');

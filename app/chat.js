@@ -72,7 +72,7 @@ checkUserExists(LoggedUser.nickname)
     .then(user => {
          setUserToLocalStorage(user);
          // Update user (set online)
-        if (!LoggedUser.status === 'online')
+        if (LoggedUser.status !== 'online')
             return updateUser(user);
     })
     .then(() => {
@@ -181,7 +181,7 @@ function updateUserInDOM(item, action) {
         canvas.setAttribute('width', '16px');
         canvas.setAttribute('height', '16px');
         var context = canvas.getContext("2d");
-        context.arc(6, 6, 6, 0, Math.PI * 2, false);
+        context.arc(10, 10, 6, 0, Math.PI * 2, false);
         var color = User_status.filter(v => v.status === item.status);
         context.fillStyle = color[0].color;
         context.fill()
