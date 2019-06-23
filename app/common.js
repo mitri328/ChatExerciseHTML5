@@ -1,4 +1,6 @@
-
+/*
+Convert the date with correct culture (fr-ch/de-ch)
+ */
 export function ConvertDate(dateString){
     let dateObj = new Date(dateString);
     return dateObj.toLocaleString('fr-CH', {

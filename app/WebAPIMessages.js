@@ -1,5 +1,8 @@
 import {getUser, UserList} from "./WebAPIUsers.js";
 
+/*
+Get only one message
+ */
 export async function getMessage(message_id) {
 
     let getMessage = await fetch('https://chat.humbapa.ch/api/messages/' + message_id, {
@@ -26,6 +29,9 @@ export async function getMessage(message_id) {
     }
 }
 
+/*
+Get all the messages
+ */
 export async function getMessages() {
     let messages = await getMessagesMain();
 
@@ -52,12 +58,10 @@ export async function getMessages() {
 
 };
 
-function getMessageFromJson(message, user_nickName) {
-    return new Message(message.id, message.timestamp,
-        message.user_id, user_nickName, message.message)
-}
 
-// Save new message
+/*
+Save a new message
+ */
 export async function saveMessage(message) {
     // if (true) return;
     if (message.message.length === 0) return;
@@ -86,7 +90,9 @@ export async function saveMessage(message) {
     }
 }
 
-// Get the list of messages sync
+/*
+Get mesasages main functions (Sychrone)
+ */
 async function getMessagesMain() {
 
     let messageList = [];
@@ -108,30 +114,10 @@ async function getMessagesMain() {
     }
 }
 
-// // Get the list of messages
-// function getMessages_() {
-//     fetch('https://chat.humbapa.ch/api/Messages')
-//
-//         .then(data => {
-//             if (data.status === 200) {
-//                 return data.json();
-//             } else {
-//                 console.log('Unable to get the messages list status : ', data.status())
-//                 return;
-//             }
-//         })
-//         .then(jsondata => {
-//
-//             for (let i = 0, ii = jsondata.length; i < ii; i++) {
-//                 messageList.push(new Message(jsondata[i].id, jsondata[i].timestamp,
-//                     jsondata[i].user_id, '', jsondata[i].message))
-//             }
-//             return messageList;
-//
-//         });
-// }
 
-// get the message list sychrone (axios)
+/*
+Get mesasages list with Axios (not anymore used, only for tests)
+ */
 export function getMessagesAxios() {
     let messageList = [];
     axios.get('https://chat.humbapa.ch/api/Messages')
@@ -159,8 +145,14 @@ export function getMessagesAxios() {
 }
 
 // -----------------------------
-//  Message Class
+//  Message Class object
 // -----------------------------
+
+// Get the message object from json format
+function getMessageFromJson(message, user_nickName) {
+    return new Message(message.id, message.timestamp,
+        message.user_id, user_nickName, message.message)
+}
 
 export class Message {
     constructor(id, timestamp, user_id, userNickName, message) {

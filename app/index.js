@@ -2,15 +2,11 @@ import {Users} from "./WebAPIUsers.js";
 import {setUserToLocalStorage, getUserFromLocalStorage, LoggedUser} from "./localStorage.js";
 
 
-console.log('login script...')
+console.log('login script...');
 
 // DOM Elements
 const nicknameInput = document.querySelector('#nickname'); // document.querySelector('input')
-const saveButton = document.querySelector('#saveButton'); // document.querySelector('input')
 const form = document.querySelector('form');
-
-//saveButton.style.visibility = 'hidden'; // hide save button (only for my tests)
-
 
 /*
 ---------------------------
@@ -64,14 +60,3 @@ form.addEventListener('submit', () => { // change
 
 });
 
-/*
----------------------------
-Test save button
----------------------------
-*/
-saveButton.addEventListener('click', () => {
-    // Save User in local storage
-    setUserToLocalStorage(new Users('', nicknameInput.value));
-    console.log('save click!');
-
-})

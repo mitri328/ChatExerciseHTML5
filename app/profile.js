@@ -22,10 +22,13 @@ if (!LoggedUser.nickname || LoggedUser.nickname == '') window.open('index.html',
 const form = document.querySelector('form');
 
 
-// Save user
+/*
+--------------------
+Form Submit event : Save User
+--------------------
 
+ */
 form.addEventListener('submit', () => {
-
 
     LoggedUserPersonalData.firstname = firstname.value;
     LoggedUserPersonalData.lastname = lastname.value;
@@ -47,7 +50,12 @@ form.addEventListener('submit', () => {
 
 })
 
-// Personal Datas
+/*
+-----------------------
+Form Load -> Get Personal data's from Local Storage
+-----------------------
+ */
+
 let firstname = document.querySelector('#firstname');
 firstname.value = LoggedUserPersonalData.firstname;
 let lastname = document.querySelector('#lastname');
@@ -65,13 +73,21 @@ let backgroundimage = document.getElementsByName('backgroundimage');
 if (LoggedUserPersonalData.backgroundimage)
     backgroundimage[LoggedUserPersonalData.backgroundimage - 1].checked = true;
 
+/*
+-----------------------
+Form Load -> Get User data's from Local Storage (resp. Websocket DB)
+-----------------------
+ */
+
 let nickname = document.querySelector('#nickname');
 nickname.value = LoggedUser.nickname;
 let profilepicture = document.getElementsByName('profilepicture');
-if (LoggedUser.avatar)
-    profilepicture[LoggedUser.avatar - 1].checked = true;
+if (!LoggedUser.avatar) LoggedUser.avatar = 1;
+profilepicture[LoggedUser.avatar - 1].checked = true;
 let description = document.querySelector('#profiledescription');
+if (!LoggedUser.description) LoggedUser.description = '';
 description.value = LoggedUser.description;
+
 
 // Update user Web API
 let success = updateUser(LoggedUser);

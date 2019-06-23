@@ -84,7 +84,7 @@
 }
 
 .site-users-dragTargetContainer {
-    height: 2px;
+    height: 4px;
     _width: 100px;
     _background-color: #6D8ACC;
 }

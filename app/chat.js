@@ -16,22 +16,6 @@ import {sendNotification} from "./Notifications.js";
 
 console.log('chat script...')
 
-// DOM
-
-// Test message ID TODO Remove
-// const input = document.querySelector('#name');
-// const button = document.querySelector('#btn');
-// button.addEventListener('click', async () => {
-//
-//     var user = LoggedUser;
-//     user.avatar = 2
-//     user.status = 'offline'
-//     console.log(user);
-//     let ok = await updateUser(user);
-//
-//     //let message = await getMessage(input.value);
-//     //addMessageInDOM(message);
-// })
 
 // --------------------
 // DOM send Message Button
@@ -290,7 +274,7 @@ function addMessageInDOM(message) {
 }
 
 // ------------------------------------
-// Web Socket
+// Web Socket Chat server
 // ------------------------------------
 var chatWSocket = new WebSocket("wss://chat.humbapa.ch/ws");
 chatWSocket.onerror = function (event) {
@@ -343,11 +327,6 @@ chatWSocket.onmessage = async function (event) {
 chatWSocket.onopen = function (event) {
     // Sende eine Nachricht an den Server, der Server wird diese danach einfach an alle verbundenen Clients zurückschicken (Echo).
     //exampleSocket.send("Hello World");
+    console.log("Commnication Web Socket running ..")
 }
-
-
-
-
-
-
 

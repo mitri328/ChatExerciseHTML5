@@ -5,6 +5,9 @@
 
 export let UserList = [];
 
+/*
+User status for the status color UI
+ */
 export const User_status = [
     {status: 'online', color: 'green'},
     {status: 'offline', color: 'grey'},
@@ -12,7 +15,9 @@ export const User_status = [
 ]
 
 
-// Check user exists
+/*
+Check if the user exists (ID not known)
+ */
 export async function checkUserExists(nickname) {
    let users = await getUserListMain();
     for (let i = 0, ii = users.length; i < ii; i++) {
@@ -23,13 +28,13 @@ export async function checkUserExists(nickname) {
     };
     return false;
 
-
-
 }
 
 
 
-// Get user From Nickname
+/*
+ Get user From Nickname
+ */
 export async function getUserFromNickName(nickname) {
 
     let users = await getUserListMain();
@@ -46,6 +51,9 @@ export async function getUserFromNickName(nickname) {
 
 }
 
+/*
+ Get user list
+ */
 export async function getUserList() {
 
     let users = await getUserListMain();
@@ -63,7 +71,9 @@ export async function getUserList() {
 
 
 
-// Get the user list (only one or all the users)
+/*
+ Get the user list Main function (only one for check user exists (id not known) or all the users)
+ */
 export async function getUserListMain(userNickName) {
 
     let getUsers = await fetch('https://chat.humbapa.ch/api/users');
@@ -80,7 +90,9 @@ export async function getUserListMain(userNickName) {
 
 }
 
-
+/*
+Get user from ID
+ */
 export async function getUser(user_id) {
 
     let getUser = await fetch('https://chat.humbapa.ch/api/users/' + user_id, {
@@ -104,7 +116,9 @@ export async function getUser(user_id) {
 
 
 
-// Save the user nickName into the DB
+/*
+Save the user nickName into the DB
+ */
 export async function saveUser(nickname) {
    // if (true) return;
     if (nickname.length === 0) return;
@@ -138,7 +152,9 @@ export async function saveUser(nickname) {
     }
 }
 
-// Save the user nickName into the DB
+/*
+ Update the user nickName into the DB
+ */
 export async function updateUser(user) {
     user.status = 'online'; // set user online
 
@@ -170,8 +186,10 @@ export async function updateUser(user) {
 }
 
 
-// Remove users
-export function removeUser(user_id) {
+/*
+ Remove user from ID (Asychrone)
+ */
+export function removeUser_(user_id) {
     fetch('https://chat.humbapa.ch/api/users/' + user_id, {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'}
@@ -187,7 +205,9 @@ export function removeUser(user_id) {
         })
 }
 
-// Remove users
+/*
+ Remove user from ID (Synchrone)
+ */
 export async function removeUserSync(user_id) {
     let removeUser = await fetch('https://chat.humbapa.ch/api/users/' + user_id, {
         method: 'DELETE',
@@ -206,14 +226,14 @@ export async function removeUserSync(user_id) {
     }
 }
 
-
-
-
 // -----------------------------
 // Users Classes
 // -----------------------------
 
-// Create new User form Json
+/*
+--- Users ----------------
+ */
+// Get the user object from json format
 export function getUserFromJson(data) {
     return new Users(data.id, data.nickname, data.created, data.updated, data.last_status_change,
         data.status, data.avatar, data.description);
@@ -269,8 +289,10 @@ export class Users {
     }
 }
 
-
-// Create new UserPersonalData form Json
+/*
+--- UserPersonalData ----------------
+ */
+// Get  UserPersonalData object from Json
 export function getUserPersonalDataFromJson(data) {
     return new UserPersonalData(data.firstname, data.lastname, data.email, data.zipcode, data.city,
         data.country, data.backgroundimage);

@@ -10,6 +10,10 @@ export let LoggedUser;
 export let LoggedUserPersonalData;
 
 
+/*
+---- Logged User (Saved in DB of WebSocket too)-----
+ */
+
 // Save User datas to local storage
 export function setUserToLocalStorage(user) {
     LoggedUser = user;
@@ -29,6 +33,9 @@ export function getUserFromLocalStorage() {
 }
 
 
+/*
+---- Profile Personal Data (common to all users, only in profile page)-----
+ */
 
 // Save PersonalData to local storage
 export function setPersonalDataToLocalStorage(userPersonalData) {
